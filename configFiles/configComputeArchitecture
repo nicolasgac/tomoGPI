@@ -1,0 +1,31 @@
+[Projection]
+xBlockNbP 16
+yBlockNbP 16
+xThreadNbP 16
+yThreadNbP 16
+projectionThreadNbP 4
+gpuNbP 8
+streamsNbP 8
+
+[Backprojection]
+xThreadNbBP 16
+yThreadNbBP 16
+projectionLoopSizeBP 16
+gpuNbBP 4
+streamsNbBP 2
+
+[Sinogram]
+uThreadNbSino 8
+vThreadNbSino 8
+pThreadNbSino 8
+gpuNbSino 8
+
+[Volume]
+xThreadNbVolume 8
+yThreadNbVolume 8
+zThreadNbVolume 8
+gpuNbVolume 8
+
+[precision]
+precision float
+storage mem_CPU

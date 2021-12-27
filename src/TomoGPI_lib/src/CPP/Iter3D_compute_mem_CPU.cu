@@ -1,0 +1,75 @@
+/*
+ * Iter3D_compute_mem_CPU.cu
+ *
+ *      Author: gac
+ */
+
+#include "Iter3D_CPU.cuh"
+
+template <typename T>
+Iter3D_RSVI_compute_C_mem_CPU<T>::Iter3D_RSVI_compute_C_mem_CPU(string workdirectory):Iter3D_compute_C<RegularSamplingProjector_compute_C_mem_CPU, VIBackProjector_compute_C_mem_CPU,HuberRegularizer_CPU,GeneralizedGaussianRegularizer_CPU,Convolution3D_CPU,Volume_CPU,Sinogram3D_CPU,T>(workdirectory){}
+
+template <typename T>
+Iter3D_RSVI_compute_C_mem_CPU<T>::Iter3D_RSVI_compute_C_mem_CPU(string workdirectory,ConfigComputeArchitecture* configComputeArchitecture_file):Iter3D_compute_C<RegularSamplingProjector_compute_C_mem_CPU, VIBackProjector_compute_C_mem_CPU,HuberRegularizer_CPU,GeneralizedGaussianRegularizer_CPU,Convolution3D_CPU,Volume_CPU,Sinogram3D_CPU,T>(workdirectory,configComputeArchitecture_file){}
+
+template <typename T>
+Iter3D_RSVI_compute_C_mem_CPU<T>::~Iter3D_RSVI_compute_C_mem_CPU(){}
+
+template <typename T>
+Iter3D_RSVI_compute_OCL_mem_CPU<T>::Iter3D_RSVI_compute_OCL_mem_CPU(string workdirectory):Iter3D_compute_OCL<RegularSamplingProjector_compute_OCL_mem_CPU, VIBackProjector_compute_OCL_mem_CPU,HuberRegularizer_CPU,GeneralizedGaussianRegularizer_CPU,Convolution3D_CPU,Volume_CPU,Sinogram3D_CPU,T>(workdirectory){}
+
+template <typename T>
+Iter3D_RSVI_compute_OCL_mem_CPU<T>::Iter3D_RSVI_compute_OCL_mem_CPU(string workdirectory,ConfigComputeArchitecture* configComputeArchitecture_file):Iter3D_compute_OCL<RegularSamplingProjector_compute_OCL_mem_CPU, VIBackProjector_compute_OCL_mem_CPU,HuberRegularizer_CPU,GeneralizedGaussianRegularizer_CPU,Convolution3D_CPU,Volume_CPU,Sinogram3D_CPU,T>(workdirectory,configComputeArchitecture_file){}
+
+template <typename T>
+Iter3D_RSVI_compute_OCL_mem_CPU<T>::~Iter3D_RSVI_compute_OCL_mem_CPU(){}
+
+template <typename T>
+Iter3D_RSVI_compute_CUDA_mem_CPU<T>::Iter3D_RSVI_compute_CUDA_mem_CPU(string workdirectory):Iter3D_compute_CUDA<RegularSamplingProjector_compute_CUDA_mem_CPU, VIBackProjector_compute_CUDA_mem_CPU,HuberRegularizer_CPU,GeneralizedGaussianRegularizer_CPU,Convolution3D_CPU,Volume_CPU,Sinogram3D_CPU,T>(workdirectory){}
+
+template <typename T>
+Iter3D_RSVI_compute_CUDA_mem_CPU<T>::Iter3D_RSVI_compute_CUDA_mem_CPU(string workdirectory,ConfigComputeArchitecture* configComputeArchitecture_file):Iter3D_compute_CUDA<RegularSamplingProjector_compute_CUDA_mem_CPU, VIBackProjector_compute_CUDA_mem_CPU,HuberRegularizer_CPU,GeneralizedGaussianRegularizer_CPU,Convolution3D_CPU,Volume_CPU,Sinogram3D_CPU,T>(workdirectory,configComputeArchitecture_file){}
+
+template <typename T>
+Iter3D_RSVI_compute_CUDA_mem_CPU<T>::~Iter3D_RSVI_compute_CUDA_mem_CPU(){}
+
+/*
+template <typename T>
+Iter3D_SFTR_compute_C_mem_CPU<T>::Iter3D_SFTR_compute_C_mem_CPU(string workdirectory):Iter3D_compute_C<SFTRProjector_compute_C_mem_CPU, SFTRBackProjector_compute_C_mem_CPU,HuberRegularizer_CPU,GeneralizedGaussianRegularizer_CPU,Convolution3D_CPU,Volume_CPU,Sinogram3D_CPU,T>(workdirectory){}
+
+template <typename T>
+Iter3D_SFTR_compute_C_mem_CPU<T>::Iter3D_SFTR_compute_C_mem_CPU(string workdirectory,ConfigComputeArchitecture* configComputeArchitecture_file):Iter3D_compute_C<SFTRProjector_compute_C_mem_CPU, SFTRBackProjector_compute_C_mem_CPU,HuberRegularizer_CPU,GeneralizedGaussianRegularizer_CPU,Convolution3D_CPU,Volume_CPU,Sinogram3D_CPU,T>(workdirectory,configComputeArchitecture_file){}
+
+template <typename T>
+Iter3D_SFTR_compute_C_mem_CPU<T>::~Iter3D_SFTR_compute_C_mem_CPU(){}
+
+template <typename T>
+Iter3D_SFTR_compute_CUDA_mem_CPU<T>::Iter3D_SFTR_compute_CUDA_mem_CPU(string workdirectory):Iter3D_compute_CUDA<SFTRProjector_compute_CUDA_mem_CPU, SFTRBackProjector_compute_CUDA_mem_CPU,HuberRegularizer_CPU,GeneralizedGaussianRegularizer_CPU,Convolution3D_CPU,Volume_CPU,Sinogram3D_CPU,T>(workdirectory){}
+
+template <typename T>
+Iter3D_SFTR_compute_CUDA_mem_CPU<T>::Iter3D_SFTR_compute_CUDA_mem_CPU(string workdirectory,ConfigComputeArchitecture* configComputeArchitecture_file):Iter3D_compute_CUDA<SFTRProjector_compute_CUDA_mem_CPU, SFTRBackProjector_compute_CUDA_mem_CPU,HuberRegularizer_CPU,GeneralizedGaussianRegularizer_CPU,Convolution3D_CPU,Volume_CPU,Sinogram3D_CPU,T>(workdirectory,configComputeArchitecture_file){}
+
+template <typename T>
+Iter3D_SFTR_compute_CUDA_mem_CPU<T>::~Iter3D_SFTR_compute_CUDA_mem_CPU(){}
+*/
+
+template <typename T>
+Iter3D_SiddonVI_compute_C_mem_CPU<T>::Iter3D_SiddonVI_compute_C_mem_CPU(string workdirectory):Iter3D_compute_C<SiddonProjector_compute_C_mem_CPU, VIBackProjector_compute_C_mem_CPU,HuberRegularizer_CPU,GeneralizedGaussianRegularizer_CPU,Convolution3D_CPU,Volume_CPU,Sinogram3D_CPU,T>(workdirectory){}
+
+template <typename T>
+Iter3D_SiddonVI_compute_C_mem_CPU<T>::Iter3D_SiddonVI_compute_C_mem_CPU(string workdirectory,ConfigComputeArchitecture* configComputeArchitecture_file):Iter3D_compute_C<SiddonProjector_compute_C_mem_CPU, VIBackProjector_compute_C_mem_CPU,HuberRegularizer_CPU,GeneralizedGaussianRegularizer_CPU,Convolution3D_CPU,Volume_CPU,Sinogram3D_CPU,T>(workdirectory,configComputeArchitecture_file){}
+
+template <typename T>
+Iter3D_SiddonVI_compute_C_mem_CPU<T>::~Iter3D_SiddonVI_compute_C_mem_CPU(){}
+
+template <typename T>
+Iter3D_SiddonVI_compute_OCL_mem_CPU<T>::Iter3D_SiddonVI_compute_OCL_mem_CPU(string workdirectory):Iter3D_compute_OCL<SiddonProjector_compute_OCL_mem_CPU, VIBackProjector_compute_OCL_mem_CPU,HuberRegularizer_CPU,GeneralizedGaussianRegularizer_CPU,Convolution3D_CPU,Volume_CPU,Sinogram3D_CPU,T>(workdirectory){}
+
+template <typename T>
+Iter3D_SiddonVI_compute_OCL_mem_CPU<T>::Iter3D_SiddonVI_compute_OCL_mem_CPU(string workdirectory,ConfigComputeArchitecture* configComputeArchitecture_file):Iter3D_compute_OCL<SiddonProjector_compute_OCL_mem_CPU, VIBackProjector_compute_OCL_mem_CPU,HuberRegularizer_CPU,GeneralizedGaussianRegularizer_CPU,Convolution3D_CPU,Volume_CPU,Sinogram3D_CPU,T>(workdirectory,configComputeArchitecture_file){}
+
+
+template <typename T>
+Iter3D_SiddonVI_compute_OCL_mem_CPU<T>::~Iter3D_SiddonVI_compute_OCL_mem_CPU(){}
+
+#include "Iter3D_instances_CPU.cu"

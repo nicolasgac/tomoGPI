@@ -1,0 +1,2 @@
+template class GeneralizedGaussianRegularizer_GPU<float>; // 32-bit real Generalized Gaussian Regularizer
+template class GeneralizedGaussianRegularizer_GPU<double>; // 64-bit real Generalized Gaussian Regularizer

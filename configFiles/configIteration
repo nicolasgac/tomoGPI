@@ -1,0 +1,27 @@
+[Iteration]
+globalIterationNb 20
+gradientIterationNb 20
+optimalStepIterationNb 10
+
+[Noise]
+addedNoiseValue 0
+
+[PenaltyFunction]
+regularizationParameter 0.1
+penaltyFunction GGaussian (Huber, GGaussian)
+gradient Simple (Simple,Conjugate)
+huberThreshold 0.0001
+beta 2.0
+positivity 0
+PottsCoefficient 0
+segmentationIterationNb 0
+m0GaussianPriorMeansClasses 0
+v0GaussianPriorMeansClasses 0
+alpha0InverseGammaPriorVariancesClasses 0
+beta0InverseGammaPriorVariancesClasses 0
+alphaNoiseInverseGammaPriorVariancesNoise 0
+betaNoiseInverseGammaPriorVariancesNoise 0
+numberOfClasses 0
+tolerance 0
+toleranceSegmentation 0
+PottsMGIMGM MGI

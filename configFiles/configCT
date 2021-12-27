@@ -1,0 +1,28 @@
+[Acquisition]
+FOD 699.99972306 mm
+FDD 1077.00005589 mm
+projectionNb 1500
+numStartAngle 0
+denStartAngle 1
+numStopAngle 2
+denStopAngle 1
+acquisitionScheme Uniform (Uniform, NonUniform)
+
+[Detector]
+horizontalDetectorSize 204.8 mm
+verticalDetectorSize 204.8 mm
+horizontalDetectorPixelNb 1024
+verticalDetectorPixelNb 1024
+
+[Volume]
+xVolumeSize 133.11 mm
+yVolumeSize 133.11 mm
+zVolumeSize 133.11 mm
+xVolumePixelNb 1024		
+yVolumePixelNb 1024
+zVolumePixelNb 1024
+
+[Initialization]
+buildRealSinogramFromTiff 0 (0: load existing sinogram, 1: create new real sinogram from tiff files)
+realVolumeName none
+initVolumeName none

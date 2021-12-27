@@ -1,0 +1,15 @@
+[Tiff]
+totalProjectionNb 1500
+usedProjectionNb 1500
+uDetectorPixelInitialNb 1024
+vDetectorPixelInitialNb 1024
+uDetectorPixelFinalNb 1024
+vDetectorPixelFinalNb 1024
+uDetectorCenterFinal 512
+vDetectorCenterFinal 512
+uCalibrationImagePixelNb 2024
+vCalibrationImagePixelNb 6072
+normalizationFactor 1.0
+CalibrationEnergyNb 3
+tiffName Aube_Turbine_HP
+calibrationTiffName Aube_Turbine_HP__bright_430kV_1300uA_131ms_1Det.tif
