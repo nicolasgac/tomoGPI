@@ -10,10 +10,6 @@
 //#include "Projector_MGPU.cuh"
 #include "Projector_kernel.cuh"
 
-#include "projection_sftr_mergedDir_kernel.cuh"
-#include "weightedCoeffDiagHVHT_sftr_kernel.cuh"
-#include "projection_sftr_opti.cuh"
-#include "projection_sf_rec_rec_kernel.cuh"
 
 
 template<template<typename> class V, template<typename> class S,typename T>
