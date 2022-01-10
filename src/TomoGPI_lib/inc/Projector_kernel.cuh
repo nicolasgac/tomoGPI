@@ -12,8 +12,7 @@
 
 #include "projection_ER_kernel.cuh"
 #include "projection_ER_kernel_UM.cuh"
-#include "projection_sftr_xMainDir_kernel.cuh"
-#include "projection_sftr_yMainDir_kernel.cuh"
+
 
 
 #endif /* PROJECTOR_HPP_ */
