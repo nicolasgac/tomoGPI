@@ -75,49 +75,7 @@ public:
 	void loadVolume(string fileName); // Load volume
 	void loadVolume(string fileName,unsigned long int offSet); // Load volume from offSet
 
-	// Gauss-Markov-Potts
-	Image3D<int>* getSegmentation();//get segmentation of the volume
-	int* getLabels();// get labels of the voxels
-	Image3D<bool>* getContours();// get contours of the volume
-	bool* getBooleanContours();// get booleans that indicate contours
-	double* getMeansClasses();//get means in the classes
-	double* getVariancesClasses();//get variances of the classes
-	double* getEnergySingleton();//get energies of singleton for each class
-	double getGammaPotts();// get Potts coefficient
-	int getNumberClasses();// get number of classes
-
-	void setSegmentation(Image3D<int>* segmentation);//set segmentation of the volume
-	void setLabels(int* labels);// set labels of the voxels
-	void setContours(Image3D<bool>* contours);// set contours
-	void setBooleanContours(bool* contours);//set booleans that indicate contours
-	void setMeansClasses(double* m_classes);//set means in the classes
-	void setVariancesClasses(double* v_classes);//set variances of the classes
-	void setEnergySingleton(double* energy_singleton);//set energies of singleton for each class
-	void setGammaPotts(double gamma_potts);// set Potts coefficient
-	void setNumberClasses(int number_classes);// set number of classes
-
-	// Joint MAP (MGI)
-	virtual void maxMeansClassesMGI(double m0, double v0)=0;// MAP for m_classes (MGI)
-	virtual void maxVariancesClassesMGI(double alpha0, double beta0)=0;//MAP for v_classes (MGI)
-	virtual void maxLabelsMGI(unsigned int numit, double tol)=0;//MAP for labels
-	virtual void maxLabelsMGIBlancs()=0;//MAP for voxels "blancs"
-	virtual void maxLabelsMGINoirs()=0;//MAP for voxels "noirs"
-	virtual double computePottsEnergyMGI()=0;//compute Potts energy
-	// Joint MAP (MGM)
-	virtual void maxMeansClassesMGM(double m0, double v0)=0;// MAP for m_classes (MGM)
-	virtual void maxVariancesClassesMGM(double alpha0, double beta0)=0;//MAP for v_classes (MGM)
-	virtual void maxMeansClassesMGMKnownContours(double m0, double v0)=0;// MAP for m_classes (MGM) with known contours
-	virtual void maxVariancesClassesMGMKnownContours(double alpha0, double beta0)=0;//MAP for v_classes (MGM) with known contours
-	virtual void maxLabelsMGM(unsigned int numit, double tol)=0;//MAP for labels (MGM)
-	virtual void maxLabelsMGMBlancs()=0;//MAP for voxels "blancs" (MGM)
-	virtual void maxLabelsMGMNoirs()=0;//MAP for voxels "noirs" (MGM)
-	virtual double computePottsEnergyMGM()=0;//compute Potts energy (MGM)
-	virtual void maxLabelsMGMFixedContours(unsigned int numit, double tol)=0;//MAP for labels (MGM) with fixed contours
-	virtual void maxLabelsMGMBlancsFixedContours()=0;//MAP for voxels "blancs" (MGM) with fixed contours
-	virtual void maxLabelsMGMNoirsFixedContours()=0;//MAP for voxels "noirs" (MGM) with fixed contours
-	virtual double computePottsEnergyMGMFixedContours()=0;//compute Potts energy (MGM) with fixed contours
-	virtual void selectContoursVolume()=0;// select contours of the volume
-	virtual void selectNoContoursVolume()=0;// select voxels which are not on the contours
+	
 	//Debug
 	//void saveVolumeDebug(string fileName); // Save volume
 	

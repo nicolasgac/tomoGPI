@@ -9,7 +9,6 @@
 #include "Volume_GPU.cuh"
 //#include "Volume_MGPU.cuh"
 #include "GPUConstant.cuh"
-#include "kernel_segmentation.cuh"
 
 template <typename T>
 Volume<T>::Volume() : xVolumeSize(0), yVolumeSize(0), zVolumeSize(0), xVolumePixelNb(0), yVolumePixelNb(0), zVolumePixelNb(0), xVolumePixelSize(0), yVolumePixelSize(0), zVolumePixelSize(0), xVolumeCenterPixel(0), yVolumeCenterPixel(0), zVolumeCenterPixel(0), xVolumeStartPixel(0), yVolumeStartPixel(0), zVolumeStartPixel(0),volumeImage(0),segmentation(0),contours(0),number_classes(0),m_classes(0),v_classes(0),energy_singleton(0),gamma_potts(0){}
@@ -300,114 +299,6 @@ T* Volume<T>::getVolumeData() const
 	return this->getVolumeImage()->getImageData();
 }
 
-/*Gauss-Markov-Potts*/
-template <typename T>
-Image3D<int>* Volume<T>::getSegmentation()
-{
-	return this->segmentation;
-}
-
-template <typename T>
-int* Volume<T>::getLabels()
-{
-	return this->getSegmentation()->getImageData();
-}
-
-template <typename T>
-Image3D<bool>* Volume<T>::getContours()
-{
-	return this->contours;
-}
-
-template <typename T>
-bool* Volume<T>::getBooleanContours()
-{
-	return this->getContours()->getImageData();
-}
-
-template <typename T>
-double* Volume<T>::getMeansClasses()
-{
-	return this->m_classes;
-}
-
-template <typename T>
-double* Volume<T>::getVariancesClasses()
-{
-	return this->v_classes;
-}
-
-template <typename T>
-double* Volume<T>::getEnergySingleton()
-{
-	return this->energy_singleton;
-}
-
-template <typename T>
-double Volume<T>::getGammaPotts()
-{
-	return this->gamma_potts;
-}
-
-template <typename T>
-int Volume<T>::getNumberClasses()
-{
-	return this->number_classes;
-}
-
-template <typename T>
-void Volume<T>::setSegmentation(Image3D<int>* segmentation)
-{
-	this->segmentation=segmentation;
-}
-
-template <typename T>
-void Volume<T>::setLabels(int* labels)
-{
-	this->getSegmentation()->setImageData(labels);
-}
-
-template <typename T>
-void Volume<T>::setContours(Image3D<bool>* contours)
-{
-	this->contours=contours;
-}
-
-template <typename T>
-void Volume<T>::setBooleanContours(bool* contours)
-{
-	this->getContours()->setImageData(contours);
-}
-
-template <typename T>
-void Volume<T>::setMeansClasses(double* m_classes)
-{
-	this->m_classes=m_classes;
-}
-
-template <typename T>
-void Volume<T>::setVariancesClasses(double* v_classes)
-{
-	this->v_classes=v_classes;
-}
-
-template <typename T>
-void Volume<T>::setEnergySingleton(double* energy_singleton)
-{
-	this->energy_singleton=energy_singleton;
-}
-
-template <typename T>
-void Volume<T>::setGammaPotts(double gamma_potts)
-{
-	this->gamma_potts=gamma_potts;
-}
-
-template <typename T>
-void Volume<T>::setNumberClasses(int number_classes)
-{
-	this->number_classes=number_classes;
-}
 
 /*
 void Volume<T>::InitVolume(Acquisition* acquisition, Detector* detector,CUDAProjectionArchitecture* cudaprojectionArchitecture, Volume<T>* volume, Sinogram3D<T>* sinogram){}

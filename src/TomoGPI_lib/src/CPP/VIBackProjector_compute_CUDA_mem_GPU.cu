@@ -80,8 +80,26 @@ void VIBackProjector_compute_CUDA_mem_GPU<T>::doBackProjection(Volume_GPU<T> *es
   		checkCudaErrors(cudaMalloc((void **)&vol, sizeof(T)*this->getVolume()->getVolumeImage()->getDataImageSize()));
   		checkCudaErrors(cudaDeviceSynchronize());*/
 
+
+		  cudaError_t error;
+		  cudaEvent_t start,stop;
+		  error = cudaEventCreate(&start);
+		  error = cudaEventCreate(&stop);
+	  
+		  // Record the start event
+		  error = cudaEventRecord(start, NULL);
+		  error = cudaEventSynchronize(start);
+
 	backprojection_VIB_kernel_v1_16reg_UM<<< dimGrid, dimBlock>>>(this->getVolume()->getVolumeData(),projectionSinogramPixelNb);
 	//backprojection_VIB_kernel_v1_16reg_UM<<< dimGrid, dimBlock>>>(vol,projectionSinogramPixelNb);
+
+	error = cudaEventRecord(stop, NULL);
+	// Wait for the stop event to complete
+	error = cudaEventSynchronize(stop);
+	float msecTotal = 0.0f;
+	error = cudaEventElapsedTime(&msecTotal, start, stop);
+
+	printf("Backproj execution time %f\n",msecTotal);
 
 	checkCudaErrors(cudaDeviceSynchronize());
 

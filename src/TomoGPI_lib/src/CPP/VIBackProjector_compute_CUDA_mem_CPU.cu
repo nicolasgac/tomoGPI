@@ -588,11 +588,29 @@ CUT_THREADPROC VIBackProjector_compute_CUDA_mem_CPU<T>::solverThread(TGPUplan_re
 		}
 
 		cudaEventRecord (event[i], streams[i]);
+		cudaError_t error;
+		cudaEvent_t start,stop;
+		error = cudaEventCreate(&start);
+		error = cudaEventCreate(&stop);
+	
+		// Record the start event
+		error = cudaEventRecord(start, NULL);
+		error = cudaEventSynchronize(start);
 
 		if (plan->fdk)
 			FDK3D_VIB_kernel_v0_16reg<<< dimGrid, dimBlock,0,streams[i]>>>(volume_d+size_volume*i,phi_start,zn_start,plan->N_phi_reduit,plan->vn_start);
 		else
 			backprojection_VIB_kernel_v2_16reg<<< dimGrid, dimBlock,0,streams[i]>>>(volume_d+size_volume*i,phi_start,zn_start,plan->N_phi_reduit,plan->vn_start);
+
+
+			error = cudaEventRecord(stop, NULL);
+			// Wait for the stop event to complete
+			error = cudaEventSynchronize(stop);
+			float msecTotal = 0.0f;
+			error = cudaEventElapsedTime(&msecTotal, start, stop);
+		
+		
+			printf("Backproj execution time %f\n",msecTotal);
 
 		checkCudaErrors(cudaMemcpyAsync(dataVolume+zn_start*xVolumePixelNb*yVolumePixelNb, volume_d+size_volume*i, size_volume*sizeof(T),cudaMemcpyDeviceToHost,streams[i])) ;
 
