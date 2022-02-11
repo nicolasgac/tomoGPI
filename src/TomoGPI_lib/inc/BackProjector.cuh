@@ -186,10 +186,7 @@ public:
 	BackProjector_half(Acquisition* acquisition, Detector* detector,CUDABProjectionArchitecture* cudabackprojectionArchitecture, V* volume,char fdk);
 	virtual ~BackProjector_half();
 	virtual void doBackProjection(V* estimatedVolume,S* sinogram)=0;
-	//virtual void doBackProjectionSFTR(V* estimatedVolume,S* sinogram)=0;//SF : trapezoid rectangle approximation
-	//virtual void doBackProjectionSFTR_allCPU(V* estimatedVolume,S* sinogram)=0;//SF : trapezoid rectangle approximation
-	// weighted diagonal coefficients of (HT*V*H) for SFTR matched pair
-	//virtual void weightedCoeffDiagHTVHSFTR(V* coeffDiag,S* weights)=0;
+	
 
 	unsigned long int getProjectionNb();
 	float getGammaIOcylinderC();
@@ -219,27 +216,6 @@ private:
 	float alphaC;//= (M_PI*focusObjectDistance*focusDetectorDistance)/(double)(projectionNb);
 	float	betaC;// = (focusDetectorDistance/uDetectorPixelSize)*(focusDetectorDistance/uDetectorPixelSize);
 };
-
-//template<template<typename> class V, template<typename> class S,typename T> class FDKBackProjector: public BackProjector<V,S,T>{
-//
-//public:
-//	FDKBackProjector(Acquisition* acquisition, Detector* detector, V<T>* volume);
-//	~FDKBackProjector();
-//	float getAlphaC();
-//	float getBetaC();
-//
-//	void doBackProjection_CPU_GPU(S<T>* sinogram, CUDABProjectionArchitecture* cudabackprojectionArchitecture);
-//	void doBackProjection_GPU(S<T>* sinogram, CUDABProjectionArchitecture* cudabackprojectionArchitecture);
-//	static CUT_THREADPROC solverThread(TGPUplan_retro<V, S, T> *plan);
-//
-//#ifdef __CUDACC__
-//	__host__ void copyConstantGPU();
-//#endif
-//
-//private:
-//	float alphaC;
-//	float betaC;
-//};
 
 
 

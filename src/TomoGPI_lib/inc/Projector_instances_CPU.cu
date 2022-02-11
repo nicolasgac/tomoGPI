@@ -20,18 +20,6 @@ template class RegularSamplingProjector_compute_CUDA_mem_CPU<double>; // 64-bit 
 
 template class RegularSamplingProjector_compute_OCL_mem_CPU<float>; // 32-bit unsigned image
 
-
-/*template class SFTRProjector_compute_C_mem_CPU<short>; // 32-bit unsigned image
-template class SFTRProjector_compute_C_mem_CPU<int>; // 64-bit signed image
-template class SFTRProjector_compute_C_mem_CPU<float>; // 32-bit unsigned image
-template class SFTRProjector_compute_C_mem_CPU<double>; // 64-bit signed image
-
-template class SFTRProjector_compute_CUDA_mem_CPU<short>; // 32-bit unsigned image
-template class SFTRProjector_compute_CUDA_mem_CPU<int>; // 64-bit signed image
-template class SFTRProjector_compute_CUDA_mem_CPU<float>; // 32-bit unsigned image
-template class SFTRProjector_compute_CUDA_mem_CPU<double>; // 64-bit signed image
-*/
-
 template class SiddonProjector_compute_C_mem_CPU<float>; // 32-bit unsigned image
 template class SiddonProjector_compute_C_mem_CPU<double>; // 64-bit signed image
 
