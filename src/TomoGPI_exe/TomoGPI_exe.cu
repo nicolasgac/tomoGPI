@@ -318,17 +318,6 @@ int main( int argc, char** argv)
 						break;}
 						break;
 					}
-				/*case PAIR_SFTR : {printf("pair SFTR ?%d\n",PAIR_SFTR);
-					switch(configComputeArchitectureFile->getCompute()){
-						case COMPUTE_C : {Iter3D_SFTR_compute_C_mem_CPU<float>* iter = new Iter3D_SFTR_compute_C_mem_CPU<float>(workdirectory,configComputeArchitectureFile);
-						iter->doMainIter(argc,argv);}
-						break;
-						case COMPUTE_CUDA : {Iter3D_SFTR_compute_CUDA_mem_CPU<float>* iter = new Iter3D_SFTR_compute_CUDA_mem_CPU<float>(workdirectory,configComputeArchitectureFile);
-						iter->doMainIter(argc,argv);}
-						break;
-						}
-						break;
-					}*/
 				case PAIR_SIDDONVI : {
 					switch(configComputeArchitectureFile->getCompute()){
 						case COMPUTE_C : {Iter3D_SiddonVI_compute_C_mem_CPU<float>* iter = new Iter3D_SiddonVI_compute_C_mem_CPU<float>(workdirectory,configComputeArchitectureFile);

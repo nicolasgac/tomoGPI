@@ -145,15 +145,6 @@ public:
 	Projector_half();
 	virtual ~Projector_half();
 	virtual void doProjection(S* estimatedSinogram,V* volume) = 0;
-	//virtual void doProjectionSFTR(S* estimatedSinogram,V* volume) = 0;//separable footprint : trapezoid rectangle approximation
-	//virtual void doProjectionSFTR_2kernels(S* estimatedSinogram,V* volume) = 0;//SFTR : 2 kernels
-	//virtual void doProjectionSFTR_opti(S* estimatedSinogram,V* volume) = 0;//separable footprint : trapezoid rectangle approximation
-	//virtual void doProjectionSFTR_allCPU(S* estimatedSinogram,V* volume) = 0;//separable footprint : trapezoid rectangle approximation
-
-	// weighted diagonal coefficients of (H*V*HT) for SFTR matched pair
-	//virtual void weightedCoeffDiagHVHTSFTR(S* coeffDiag,V* weights)=0;
-	// weighted diagonal coefficients of (H*V*HT) for SFTR matched pair
-	//virtual void weightedCoeffDiagHVHTSFTR_2kernels(S* coeffDiag,V* weights)=0;
 
 	Acquisition* getAcquisition() const; // Get detector
 	Detector* getDetector() const; // Get detector

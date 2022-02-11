@@ -114,8 +114,6 @@ void Iter3D<P,BP,R_Huber,R_GG,C,V,S,T>::doSimpleGradient(V<T>* volume,S<T>* real
 		//dJ->saveVolume("vol_debug.v");
 
 		/* Regularization */
-		//commented
-		/*
 		if(this->getLambda() != 0)
 		{
 			if(this->getKind_Regularizer() == GG)
@@ -127,7 +125,6 @@ void Iter3D<P,BP,R_Huber,R_GG,C,V,S,T>::doSimpleGradient(V<T>* volume,S<T>* real
 				this->getRegularizer_Huber()->getLaplacianRegularizationCriterion(volume, dJ, &JReg, &normdJProjReg,this->getLambda(),gradientIterationIdx,this->getOptimalStepIterationNb());
 			}
 		}
-		 */
 
 		//dJ->saveVolume(this->getOutputDirectory() + "apres_reg"+ std::to_string(gradientIterationIdx) + ".v");
 		//cout << "\tLambda=" << this->getLambda() << endl;

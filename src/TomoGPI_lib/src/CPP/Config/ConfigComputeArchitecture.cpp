@@ -39,9 +39,7 @@ if (strcmp(this->getConfigFileField<string>("compute").c_str(),"OCL")==0)
 	else
 		this->architecture= ARCHITECTURE_GPU;
 
-if (strcmp(this->getConfigFileField<string>("pair").c_str(),"SFTR")==0)
-		this->pair = PAIR_SFTR;
-	else if (strcmp(this->getConfigFileField<string>("pair").c_str(),"SiddonVI")==0)
+ if (strcmp(this->getConfigFileField<string>("pair").c_str(),"SiddonVI")==0)
 		this->pair = PAIR_SIDDONVI;
 	else
 		this->pair= PAIR_RSVI;
