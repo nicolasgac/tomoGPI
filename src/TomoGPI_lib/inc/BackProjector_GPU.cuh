@@ -47,11 +47,6 @@ public:
 	VIBackProjector_GPU_half(Acquisition* acquisition, Detector* detector,CUDABProjectionArchitecture* cudabackprojectionArchitecture, Volume_GPU_half* volume,char fdk);
 	~VIBackProjector_GPU_half();
 	void doBackProjection(Volume_GPU_half *estimatedVolume,Sinogram3D_GPU_half* sinogram);
-	//void doBackProjectionSFTR(Volume_GPU_half *estimatedVolume,Sinogram3D_GPU_half* sinogram);//SF : trapezoid rectangle approximation
-	//void doBackProjectionSFTR_allCPU(Volume_GPU_half *estimatedVolume,Sinogram3D_GPU_half* sinogram);//SF : trapezoid rectangle approximation
-	// weighted diagonal coefficients of (HT*V*H) for SFTR matched pair
-	//void weightedCoeffDiagHTVHSFTR(Volume_GPU_half* coeffDiag,Sinogram3D_GPU_half* weights);
-
 
 };
 
