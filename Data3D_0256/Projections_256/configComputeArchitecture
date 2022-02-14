@@ -1,0 +1,34 @@
+[Projection]
+xThreadNbP 8
+yThreadNbP 8
+projectionThreadNbP 4
+numberOfCellsP 8
+gpuNbP 1
+streamsNbP 1
+
+[Backprojection]
+xThreadNbBP 16
+yThreadNbBP 16
+numberOfVoxelsBP 8
+projectionLoopSizeBP 1
+gpuNbBP 1
+streamsNbBP 1
+
+[Sinogram]
+uThreadNbSino 8
+vThreadNbSino 8
+pThreadNbSino 8
+gpuNbSino 1
+
+[Volume]
+xThreadNbVolume 8
+yThreadNbVolume 8
+zThreadNbVolume 8
+gpuNbVolume 1
+
+[precision]
+precision float (half,float,double)
+storage mem_CPU (mem_CPU,mem_GPU)
+compute COMPUTE_CUDA (COMPUTE_CUDA,COMPUTE_OCL,COMPUTE_C)
+architecture ARCHITECTURE_FPGA (ARCHITECTURE_GPU,ARCHITECTURE_FPGA,ARCHITECTURE_CPU)
+pair PAIR_RSVI (PAIR_SFTR,PAIR_RSVI,PAIR_SIDDONVI)

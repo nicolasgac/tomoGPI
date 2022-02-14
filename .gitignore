@@ -46,3 +46,6 @@ TomoCND_FDK*
 TomoCND_ITER*
 **/script
 **/batch*
+**/TomoIter
+**/Results
+*.aocx

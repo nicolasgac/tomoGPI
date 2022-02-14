@@ -1,0 +1,12 @@
+[Tiff]
+totalProjectionNb 256
+usedProjectionNb 256
+uDetectorPixelInitialNb 256
+vDetectorPixelInitialNb 256
+uDetectorPixelFinalNb 256
+vDetectorPixelFinalNb 256
+normalizationFactor 1.0 
+tiffName P_ER_GPU
+uDetectorCenterFinal 0
+vDetectorCenterFinal 0
+//tiffName P_ER_GPU_FILTERED_f1.00_NOISE_20.0dB

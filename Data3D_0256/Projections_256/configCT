@@ -1,0 +1,29 @@
+[Acquisition]
+FOD 98 mm
+FDD 230 mm
+projectionNb 256
+numStartAngle 0
+denStartAngle 1
+numStopAngle 2
+denStopAngle 1
+acquisitionScheme Uniform (Uniform, NonUniform)
+
+[Detector]
+horizontalDetectorSize 14.2 mm
+verticalDetectorSize 14.2 mm
+horizontalDetectorPixelNb 256
+verticalDetectorPixelNb 256
+
+[Volume]
+xVolumeSize 6.05 mm
+yVolumeSize 6.05 mm
+zVolumeSize 5.86 mm
+xVolumePixelNb 256		
+yVolumePixelNb 256
+zVolumePixelNb 256
+
+[Initialization]
+buildRealSinogramFromTiff 0 (0: load existing sinogram, 1: create new real sinogram from tiff files)
+initVolumeName none
+realVolumeName /espace/tomo_gpi/data3D_0256/phantom3D_0006_shepp_Daouda/shepplogan_3d.v
+//realVolumeName /espace/tomo_gpi/data3D_0256/phantom3D_0006_shepp_Daouda/1voxel_3D.v
