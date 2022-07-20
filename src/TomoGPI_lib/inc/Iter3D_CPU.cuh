@@ -30,6 +30,15 @@ public:
 	~Iter3D_RSVI_compute_CUDA_mem_CPU();
 };
 
+
+template<typename T> class Iter3D_RSVI_compute_CUDA_OCL_mem_CPU : public Iter3D_compute_CUDA_OCL<RegularSamplingProjector_compute_CUDA_mem_CPU,VIBackProjector_compute_OCL_mem_CPU,HuberRegularizer_CPU,GeneralizedGaussianRegularizer_CPU,Convolution3D_CPU,Volume_CPU,Sinogram3D_CPU,T>{
+public:
+	Iter3D_RSVI_compute_CUDA_OCL_mem_CPU(string workdirectory);
+	Iter3D_RSVI_compute_CUDA_OCL_mem_CPU(string workdirectory,ConfigComputeArchitecture *configComputeArchitectureFile);
+	~Iter3D_RSVI_compute_CUDA_OCL_mem_CPU();
+};
+
+
 /*template<typename T> class Iter3D_SFTR_compute_C_mem_CPU : public Iter3D_compute_C<SFTRProjector_compute_C_mem_CPU,SFTRBackProjector_compute_C_mem_CPU,HuberRegularizer_CPU,GeneralizedGaussianRegularizer_CPU,Convolution3D_CPU,Volume_CPU,Sinogram3D_CPU,T>{
 public:
 	Iter3D_SFTR_compute_C_mem_CPU(string workdirectory);

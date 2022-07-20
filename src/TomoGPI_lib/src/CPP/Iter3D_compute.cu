@@ -372,6 +372,165 @@ CUDABProjectionArchitecture* Iter3D_compute_OCL<P,BP,R_Huber,R_GG,C,V,S,T>::getC
 
 
 
+template<template<typename> class P, template<typename> class BP, template<typename> class R_Huber, template<typename> class R_GG,template<typename> class C, template<typename> class V, template<typename> class S,typename T>
+Iter3D_compute_CUDA_OCL<P,BP,R_Huber,R_GG,C,V,S,T>::Iter3D_compute_CUDA_OCL(string workdirectory) : Iter3D<P,BP,R_Huber,R_GG,C,V,S,T>(workdirectory)
+{	
+
+	//this->cudaArchitectureSino = &(this->getConfigComputeArchitectureFile()->createCUDAArchitectureSino(this->getDetector(),this->getAcquisition()));
+	//this->cudaArchitectureVolume = &(this->getConfigComputeArchitectureFile()->createCUDAArchitectureVolume(this->getFieldOfview())); // PROJECTION ARCHITECTURE OBJECT CREATION
+	this->cudaprojectionArchitecture = &(this->getConfigComputeArchitectureFile()->createCUDAProjectionArchitecture()); // PROJECTION ARCHITECTURE OBJECT CREATION
+	this->cudabackprojectionArchitecture = &(this->getConfigComputeArchitectureFile()->createCUDABProjectionArchitecture(this->getFieldOfview())); // BACKPROJECTION ARCHITECTURE OBJECT CREATION
+
+	this->oclArchitectureSino = &(this->getConfigComputeArchitectureFile()->createOCLArchitectureSino(this->getDetector(),this->getAcquisition()));
+	this->oclArchitectureVolume = &(this->getConfigComputeArchitectureFile()->createOCLArchitectureVolume(this->getFieldOfview())); // PROJECTION ARCHITECTURE OBJECT CREATION
+	this->oclprojectionArchitecture = &(this->getConfigComputeArchitectureFile()->createOCLProjectionArchitecture()); // PROJECTION ARCHITECTURE OBJECT CREATION
+	this->oclbackprojectionArchitecture = &(this->getConfigComputeArchitectureFile()->createOCLBProjectionArchitecture(this->getFieldOfview())); // BACKPROJECTION ARCHITECTURE OBJECT CREATION
+
+	this->oclArchitecture_kind = (this->getConfigComputeArchitectureFile()->getArchitecture());
+
+
+	float xVolumeSize,yVolumeSize,xVolumePixelNb,yVolumePixelNb,zVolumeSize,zVolumePixelNb;
+
+	ConfigCT* configCT_file=this->getConfigCTFile();
+
+	xVolumeSize=configCT_file->getConfigFileField<float>("xVolumeSize");
+	yVolumeSize = configCT_file->getConfigFileField<float>("yVolumeSize");
+	xVolumePixelNb = configCT_file->getConfigFileField<int>("xVolumePixelNb");
+	yVolumePixelNb = configCT_file->getConfigFileField<int>("yVolumePixelNb");
+	zVolumeSize = configCT_file->getConfigFileField<float>("zVolumeSize");
+	zVolumePixelNb = configCT_file->getConfigFileField<int>("zVolumePixelNb");
+
+	this->setVolume(new V<T>(xVolumeSize,yVolumeSize,zVolumeSize,xVolumePixelNb,yVolumePixelNb,zVolumePixelNb)); 
+	this->setProjector(new P<T>(this->getAcquisition(),this->getDetector(),this->cudaprojectionArchitecture,this->getVolume())); // PROJECTION OBJECT CREATION
+	this->setBackprojector(new BP<T>(this->getAcquisition(),this->getDetector(),this->oclbackprojectionArchitecture,this->getVolume(),0)); // BACK PROJECTION OBJECT CREATION
+}
+
+
+template<template<typename> class P, template<typename> class BP, template<typename> class R_Huber, template<typename> class R_GG,template<typename> class C, template<typename> class V, template<typename> class S,typename T>
+Iter3D_compute_CUDA_OCL<P,BP,R_Huber,R_GG,C,V,S,T>::Iter3D_compute_CUDA_OCL(string workDirectory, ConfigComputeArchitecture* configComputeArchitecture_file) : Iter3D<P,BP,R_Huber,R_GG,C,V,S,T>(workDirectory,configComputeArchitecture_file)
+{
+	this->cudaArchitectureSino = &(this->getConfigComputeArchitectureFile()->createCUDAArchitectureSino(this->getDetector(),this->getAcquisition()));
+	this->cudaArchitectureVolume = &(this->getConfigComputeArchitectureFile()->createCUDAArchitectureVolume(this->getFieldOfview())); // PROJECTION ARCHITECTURE OBJECT CREATION
+	this->cudaprojectionArchitecture = &(this->getConfigComputeArchitectureFile()->createCUDAProjectionArchitecture()); // PROJECTION ARCHITECTURE OBJECT CREATION
+	this->cudabackprojectionArchitecture = &(this->getConfigComputeArchitectureFile()->createCUDABProjectionArchitecture(this->getFieldOfview())); // BACKPROJECTION ARCHITECTURE OBJECT CREATION
+	this->cudaArchitectureSino->setComputingUnitNb(this->getConfigComputeArchitectureFile()->getGpuNb_sino());
+	this->cudaArchitectureVolume->setComputingUnitNb(this->getConfigComputeArchitectureFile()->getGpuNb_vol());
+	this->cudaprojectionArchitecture->setComputingUnitNb(this->getConfigComputeArchitectureFile()->getGpuNb_proj());
+	this->cudabackprojectionArchitecture->setComputingUnitNb(this->getConfigComputeArchitectureFile()->getGpuNb_back());
+this->cudaprojectionArchitecture->setProjectionStreamsNb(this->getConfigComputeArchitectureFile()->getprojectionStreamsNb());
+this->cudabackprojectionArchitecture->setBProjectionStreamsNb(this->getConfigComputeArchitectureFile()->getbackprojectionStreamsNb());
+
+	
+	this->oclArchitectureSino = &(this->getConfigComputeArchitectureFile()->createOCLArchitectureSino(this->getDetector(),this->getAcquisition()));
+	this->oclArchitectureVolume = &(this->getConfigComputeArchitectureFile()->createOCLArchitectureVolume(this->getFieldOfview())); // PROJECTION ARCHITECTURE OBJECT CREATION
+	this->oclprojectionArchitecture = &(this->getConfigComputeArchitectureFile()->createOCLProjectionArchitecture()); // PROJECTION ARCHITECTURE OBJECT CREATION
+	this->oclbackprojectionArchitecture = &(this->getConfigComputeArchitectureFile()->createOCLBProjectionArchitecture(this->getFieldOfview())); // BACKPROJECTION ARCHITECTURE OBJECT CREATION
+	this->oclbackprojectionArchitecture->setArchitecture(configComputeArchitecture_file->getArchitecture());
+
+	float xVolumeSize,yVolumeSize,xVolumePixelNb,yVolumePixelNb,zVolumeSize,zVolumePixelNb;
+
+	ConfigCT* configCT_file=this->getConfigCTFile();
+
+	xVolumeSize=configCT_file->getConfigFileField<float>("xVolumeSize");
+	yVolumeSize = configCT_file->getConfigFileField<float>("yVolumeSize");
+	xVolumePixelNb = configCT_file->getConfigFileField<int>("xVolumePixelNb");
+	yVolumePixelNb = configCT_file->getConfigFileField<int>("yVolumePixelNb");
+	zVolumeSize = configCT_file->getConfigFileField<float>("zVolumeSize");
+	zVolumePixelNb = configCT_file->getConfigFileField<int>("zVolumePixelNb");
+
+	this->setVolume(new V<T>(xVolumeSize,yVolumeSize,zVolumeSize,xVolumePixelNb,yVolumePixelNb,zVolumePixelNb)); // 
+	this->setProjector(new P<T>(this->getAcquisition(),this->getDetector(),this->cudaprojectionArchitecture,this->getVolume())); // PROJECTION OBJECT CREATION
+	this->setBackprojector(new BP<T>(this->getAcquisition(),this->getDetector(),this->oclbackprojectionArchitecture,this->getVolume(),0)); // BACK PROJECTION OBJECT CREATION
+}
+
+
+template<template<typename> class P, template<typename> class BP, template<typename> class R_Huber, template<typename> class R_GG,template<typename> class C, template<typename> class V, template<typename> class S,typename T>
+Iter3D_compute_CUDA_OCL<P,BP,R_Huber,R_GG,C,V,S,T>::~Iter3D_compute_CUDA_OCL(){}
+
+
+template<template<typename> class P, template<typename> class BP, template<typename> class R_Huber, template<typename> class R_GG,template<typename> class C, template<typename> class V, template<typename> class S,typename T>
+V<T>* Iter3D_compute_CUDA_OCL<P,BP,R_Huber,R_GG,C,V,S,T>::create_volume()
+{
+	V<T>* vol;
+	vol=new V<T>(this->getVolume()->getXVolumeSize(),this->getVolume()->getYVolumeSize(),this->getVolume()->getZVolumeSize(),this->getVolume()->getXVolumePixelNb(),this->getVolume()->getYVolumePixelNb(),this->getVolume()->getZVolumePixelNb());
+	return vol;
+}
+
+
+template<template<typename> class P, template<typename> class BP, template<typename> class R_Huber, template<typename> class R_GG,template<typename> class C, template<typename> class V, template<typename> class S,typename T>
+S<T>* Iter3D_compute_CUDA_OCL<P,BP,R_Huber,R_GG,C,V,S,T>::create_sinogram3D()
+{
+	S<T>* sino;
+	//sino=new S<T>(this->getDetector()->getUDetectorPixelNb(), this->getDetector()->getVDetectorPixelNb(), this->getAcquisition()->getProjectionNb());
+	sino=new S<T>(this->getDetector()->getUDetectorPixelNb(), this->getDetector()->getVDetectorPixelNb(), this->getAcquisition()->getProjectionNb(),this->cudaArchitectureSino);
+	return sino;
+}
+
+
+template<template<typename> class P, template<typename> class BP, template<typename> class R_Huber, template<typename> class R_GG,template<typename> class C, template<typename> class V, template<typename> class S,typename T>
+OCLArchitecture* Iter3D_compute_CUDA_OCL<P,BP,R_Huber,R_GG,C,V,S,T>::getOCLArchitectureSino() const
+{
+	return (this->oclArchitectureSino);
+}
+
+template<template<typename> class P, template<typename> class BP, template<typename> class R_Huber, template<typename> class R_GG,template<typename> class C, template<typename> class V, template<typename> class S,typename T>
+OCLArchitecture* Iter3D_compute_CUDA_OCL<P,BP,R_Huber,R_GG,C,V,S,T>::getOCLArchitectureVolume() const
+{
+	return (this->oclArchitectureVolume);
+}
+
+template<template<typename> class P, template<typename> class BP, template<typename> class R_Huber, template<typename> class R_GG,template<typename> class C, template<typename> class V, template<typename> class S,typename T>
+OCLArchitecture* Iter3D_compute_CUDA_OCL<P,BP,R_Huber,R_GG,C,V,S,T>::getOCLArchitecture() const
+{
+	return (this->oclArchitecture);
+}
+
+template<template<typename> class P, template<typename> class BP, template<typename> class R_Huber, template<typename> class R_GG,template<typename> class C, template<typename> class V, template<typename> class S,typename T>
+OCLProjectionArchitecture* Iter3D_compute_CUDA_OCL<P,BP,R_Huber,R_GG,C,V,S,T>::getOCLProjectionArchitecture() const
+{
+	return (this->oclprojectionArchitecture);
+}
+
+
+template<template<typename> class P, template<typename> class BP, template<typename> class R_Huber, template<typename> class R_GG,template<typename> class C, template<typename> class V, template<typename> class S,typename T>
+OCLBProjectionArchitecture* Iter3D_compute_CUDA_OCL<P,BP,R_Huber,R_GG,C,V,S,T>::getOCLBProjectionArchitecture() const
+{
+	return (this->oclbackprojectionArchitecture);
+}
+
+
+template<template<typename> class P, template<typename> class BP, template<typename> class R_Huber, template<typename> class R_GG,template<typename> class C, template<typename> class V, template<typename> class S,typename T>
+CUDAArchitecture* Iter3D_compute_CUDA_OCL<P,BP,R_Huber,R_GG,C,V,S,T>::getCUDAArchitectureSino() const
+{
+	return (this->cudaArchitectureSino);
+}
+
+template<template<typename> class P, template<typename> class BP, template<typename> class R_Huber, template<typename> class R_GG,template<typename> class C, template<typename> class V, template<typename> class S,typename T>
+CUDAArchitecture* Iter3D_compute_CUDA_OCL<P,BP,R_Huber,R_GG,C,V,S,T>::getCUDAArchitectureVolume() const
+{
+	return (this->cudaArchitectureVolume);
+}
+
+template<template<typename> class P, template<typename> class BP, template<typename> class R_Huber, template<typename> class R_GG,template<typename> class C, template<typename> class V, template<typename> class S,typename T>
+CUDAArchitecture* Iter3D_compute_CUDA_OCL<P,BP,R_Huber,R_GG,C,V,S,T>::getCUDAArchitecture() const
+{
+	return (this->cudaArchitecture);
+}
+
+template<template<typename> class P, template<typename> class BP, template<typename> class R_Huber, template<typename> class R_GG,template<typename> class C, template<typename> class V, template<typename> class S,typename T>
+CUDAProjectionArchitecture* Iter3D_compute_CUDA_OCL<P,BP,R_Huber,R_GG,C,V,S,T>::getCUDAProjectionArchitecture() const
+{
+	return (this->cudaprojectionArchitecture);
+}
+
+
+template<template<typename> class P, template<typename> class BP, template<typename> class R_Huber, template<typename> class R_GG,template<typename> class C, template<typename> class V, template<typename> class S,typename T>
+CUDABProjectionArchitecture* Iter3D_compute_CUDA_OCL<P,BP,R_Huber,R_GG,C,V,S,T>::getCUDABProjectionArchitecture() const
+{
+	return (this->cudabackprojectionArchitecture);
+}
+
+
 
 #include "Iter3D_instances_CPU.cu"
 #include "Iter3D_instances_GPU.cu"

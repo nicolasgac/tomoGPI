@@ -8,10 +8,10 @@
 
 
 
-#include "projection_sftr_mergedDir_kernel.cuh"
+/*#include "projection_sftr_mergedDir_kernel.cuh"
 #include "weightedCoeffDiagHVHT_sftr_kernel.cuh"
 #include "projection_sftr_opti.cuh"
-#include "projection_sf_rec_rec_kernel.cuh"
+#include "projection_sf_rec_rec_kernel.cuh"*/
 /* RegularSamplingProjector definition */
 /*template <typename T>
 RegularSamplingProjector_GPU<T>::RegularSamplingProjector_GPU() : Projector<Volume_GPU,Sinogram3D_GPU,T>() {}

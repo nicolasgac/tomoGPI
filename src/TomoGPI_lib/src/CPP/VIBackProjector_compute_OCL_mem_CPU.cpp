@@ -88,8 +88,8 @@ VIBackProjector_compute_OCL_mem_CPU<T>::~VIBackProjector_compute_OCL_mem_CPU(){}
 template<typename T>
 void VIBackProjector_compute_OCL_mem_CPU<T>::doBackProjection(Volume_CPU<T>* estimatedVolume,Sinogram3D_CPU<T>* sinogram)
 {
-    float * host_volume = (float *)malloc(256*256*256*sizeof(float));
-    float * host_volume1 = (float *)malloc(256*256*256*sizeof(float));
+    T * host_volume = (T *)malloc(256*256*256*sizeof(float));
+    T * host_volume1 = (T *)malloc(256*256*256*sizeof(float));
     
     switch (this->oclbackprojectionArchitecture->getArchitecture())
     {
@@ -106,7 +106,7 @@ void VIBackProjector_compute_OCL_mem_CPU<T>::doBackProjection(Volume_CPU<T>* est
         // this->doBackProjection_GPU(estimatedVolume, sinogram);
         // memcpy(host_volume,estimatedVolume->getVolumeData(),estimatedVolume->getXVolumePixelNb()*estimatedVolume->getYVolumePixelNb()*estimatedVolume->getZVolumePixelNb()*sizeof(float));
         this->doBackProjection_CPU(estimatedVolume, sinogram);
-        memcpy(host_volume1,estimatedVolume->getVolumeData(),estimatedVolume->getXVolumePixelNb()*estimatedVolume->getYVolumePixelNb()*estimatedVolume->getZVolumePixelNb()*sizeof(float));
+        memcpy(host_volume1,estimatedVolume->getVolumeData(),estimatedVolume->getXVolumePixelNb()*estimatedVolume->getYVolumePixelNb()*estimatedVolume->getZVolumePixelNb()*sizeof(T));
         float RMSE;
         RMSE = 0.0;
         for(unsigned int p=0; p<256*256*256; p++){
@@ -226,17 +226,17 @@ void VIBackProjector_compute_OCL_mem_CPU<T>::doBackProjection_FPGA(Volume_CPU<T>
 
     
     void * host_volume = NULL; //(cl_float*)alignedMalloc(volume->N_xn*volume->N_yn*volume->N_zn*sizeof(float));
-	posix_memalign ((void **)&host_volume, AOCL_ALIGNMENT, estimatedVolume->getXVolumePixelNb()*estimatedVolume->getYVolumePixelNb()*estimatedVolume->getZVolumePixelNb()*sizeof(float));
+	posix_memalign ((void **)&host_volume, AOCL_ALIGNMENT, estimatedVolume->getXVolumePixelNb()*estimatedVolume->getYVolumePixelNb()*estimatedVolume->getZVolumePixelNb()*sizeof(T));
     
 	//float * host_volume = (float *)estimatedVolume->getVolumeData();
 	//printf("Taille host_volume : %d * sizeof(float)\n",estimatedVolume->getXVolumePixelNb()*estimatedVolume->getYVolumePixelNb()*estimatedVolume->getZVolumePixelNb());
 
     
     void * host_sinogram = NULL; //(cl_float*)alignedMalloc(sinogram->N_phi*sinogram->N_un*sinogram->N_vn*sizeof(float));
-	posix_memalign ((void **)&host_sinogram, AOCL_ALIGNMENT, sinogram->getDataSinogramSize()*sizeof(float));
+	posix_memalign ((void **)&host_sinogram, AOCL_ALIGNMENT, sinogram->getDataSinogramSize()*sizeof(T));
 
-    memcpy(host_volume,estimatedVolume->getVolumeData(),estimatedVolume->getXVolumePixelNb()*estimatedVolume->getYVolumePixelNb()*estimatedVolume->getZVolumePixelNb()*sizeof(float));
-   	memcpy(host_sinogram,sinogram->getDataSinogram(),sinogram->getDataSinogramSize()*sizeof(float));
+    memcpy(host_volume,estimatedVolume->getVolumeData(),estimatedVolume->getXVolumePixelNb()*estimatedVolume->getYVolumePixelNb()*estimatedVolume->getZVolumePixelNb()*sizeof(T));
+   	memcpy(host_sinogram,sinogram->getDataSinogram(),sinogram->getDataSinogramSize()*sizeof(T));
     
     cl_float2 * alpha_beta = NULL; // alpha and beta in a vector type float2
     posix_memalign ((void **)&alpha_beta, AOCL_ALIGNMENT, sizeof(cl_float2)*projectionSinogramNb);
@@ -290,17 +290,17 @@ void VIBackProjector_compute_OCL_mem_CPU<T>::doBackProjection_FPGA(Volume_CPU<T>
 
     queue = clCreateCommandQueue(context, device_id, CL_QUEUE_PROFILING_ENABLE, &ret);
 
-    cl_mem device_volume = clCreateBuffer(context, CL_MEM_READ_WRITE, estimatedVolume->getXVolumePixelNb()*estimatedVolume->getYVolumePixelNb()*estimatedVolume->getZVolumePixelNb()*sizeof(float), NULL,&ret);
+    cl_mem device_volume = clCreateBuffer(context, CL_MEM_READ_WRITE, estimatedVolume->getXVolumePixelNb()*estimatedVolume->getYVolumePixelNb()*estimatedVolume->getZVolumePixelNb()*sizeof(T), NULL,&ret);
 	printf("device_volume created\n");
 	//cl_mem device_sinogram = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, sinogram->getDataSinogramSize()*sizeof(float), host_sinogram,&ret);
-    cl_mem device_sinogram = clCreateBuffer(context, CL_MEM_READ_ONLY, sinogram->getDataSinogramSize()*sizeof(float), NULL,&ret);
+    cl_mem device_sinogram = clCreateBuffer(context, CL_MEM_READ_ONLY, sinogram->getDataSinogramSize()*sizeof(T), NULL,&ret);
 	printf("device_sinogram created\n");
 	cl_mem device_sampling = clCreateBuffer(context, CL_MEM_READ_ONLY, sizeof(type_struct_sampling_opencl1), NULL,&ret);
 	printf("device_sampling created\n");
 	cl_mem device_constant = clCreateBuffer(context, CL_MEM_READ_ONLY, sizeof(type_struct_constante_opencl1), NULL,&ret);
     cl_mem device_alpha_beta = clCreateBuffer(context, CL_MEM_READ_ONLY, projectionSinogramNb * sizeof(cl_float2), NULL,&ret);
 	printf("device_constant created\n");
-    ret = clEnqueueWriteBuffer(queue, device_sinogram, CL_TRUE, 0, sinogram->getDataSinogramSize()*sizeof(float), host_sinogram, 0, NULL, NULL);
+    ret = clEnqueueWriteBuffer(queue, device_sinogram, CL_TRUE, 0, sinogram->getDataSinogramSize()*sizeof(T), host_sinogram, 0, NULL, NULL);
     ret = clEnqueueWriteBuffer(queue, device_sampling, CL_TRUE, 0, sizeof(type_struct_sampling_opencl1), host_sampling, 0, NULL, NULL);
     ret = clEnqueueWriteBuffer(queue, device_constant, CL_TRUE, 0, sizeof(type_struct_sampling_opencl1), host_constant, 0, NULL, NULL);
     ret = clEnqueueWriteBuffer(queue, device_alpha_beta, CL_TRUE, 0, projectionSinogramNb * sizeof(cl_float2), alpha_beta, 0, NULL, NULL);
@@ -380,7 +380,7 @@ void VIBackProjector_compute_OCL_mem_CPU<T>::doBackProjection_FPGA(Volume_CPU<T>
     printf("Mean Time kernels : %.2f s \n",exe_time/1000000000.0);
     ret = clEnqueueReadBuffer(queue, device_volume, CL_TRUE, 0, estimatedVolume->getXVolumePixelNb()*estimatedVolume->getYVolumePixelNb()*estimatedVolume->getZVolumePixelNb()*sizeof(float), host_volume, 0, NULL, NULL);
     
-    estimatedVolume->setVolumeData((float *) host_volume);
+    estimatedVolume->setVolumeData((T *) host_volume);
 	
 
 	CLEANUP();  
@@ -489,12 +489,12 @@ void VIBackProjector_compute_OCL_mem_CPU<T>::doBackProjection_GPU(Volume_CPU<T>*
 	type_struct_constante_opencl1 * host_constant = (type_struct_constante_opencl1 * ) malloc(sizeof(type_struct_constante_opencl1));
 	type_struct_sampling_opencl1* host_sampling = (type_struct_sampling_opencl1*) malloc (sizeof(type_struct_sampling_opencl1));
 
-	float * host_volume = (float *)estimatedVolume->getVolumeData();
+	T* host_volume = (T *)estimatedVolume->getVolumeData();
 	printf("Taille host_volume : %d * sizeof(float)\n",estimatedVolume->getXVolumePixelNb()*estimatedVolume->getYVolumePixelNb()*estimatedVolume->getZVolumePixelNb());
 
     //float * host_sinogram = (float *) malloc(sizeof(float)*sinogram->getDataSinogramSize());
     //host_sinogram = (float *) sinogram->getDataSinogram();
-    float * host_sinogram = (float *)sinogram->getDataSinogram();
+    T* host_sinogram = (T *)sinogram->getDataSinogram();
 	printf("Taille host_sinogram : %d * sizeof(float)\n",sinogram->getDataSinogramSize());
 
     
@@ -564,14 +564,14 @@ void VIBackProjector_compute_OCL_mem_CPU<T>::doBackProjection_GPU(Volume_CPU<T>*
     cl_mem device_volume = clCreateBuffer(context, CL_MEM_READ_WRITE, estimatedVolume->getXVolumePixelNb()*estimatedVolume->getYVolumePixelNb()*estimatedVolume->getZVolumePixelNb()*sizeof(float), NULL,&ret);
 	printf("device_volume created\n");
 	//cl_mem device_sinogram = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, sinogram->getDataSinogramSize()*sizeof(float), host_sinogram,&ret);
-    cl_mem device_sinogram = clCreateBuffer(context, CL_MEM_READ_ONLY, sinogram->getDataSinogramSize()*sizeof(float), NULL,&ret);
+    cl_mem device_sinogram = clCreateBuffer(context, CL_MEM_READ_ONLY, sinogram->getDataSinogramSize()*sizeof(T), NULL,&ret);
 	printf("device_sinogram created\n");
 	cl_mem device_sampling = clCreateBuffer(context, CL_MEM_READ_ONLY, sizeof(type_struct_sampling_opencl1), NULL,&ret);
 	printf("device_sampling created\n");
 	cl_mem device_constant = clCreateBuffer(context, CL_MEM_READ_ONLY, sizeof(type_struct_constante_opencl1), NULL,&ret);
     cl_mem device_alpha_beta = clCreateBuffer(context, CL_MEM_READ_ONLY, projectionSinogramNb * sizeof(cl_float2), NULL,&ret);
 	printf("device_constant created\n");
-    ret = clEnqueueWriteBuffer(queue, device_sinogram, CL_TRUE, 0, sinogram->getDataSinogramSize()*sizeof(float), host_sinogram, 0, NULL, NULL);
+    ret = clEnqueueWriteBuffer(queue, device_sinogram, CL_TRUE, 0, sinogram->getDataSinogramSize()*sizeof(T), host_sinogram, 0, NULL, NULL);
     ret = clEnqueueWriteBuffer(queue, device_sampling, CL_TRUE, 0, sizeof(type_struct_sampling_opencl1), host_sampling, 0, NULL, NULL);
     ret = clEnqueueWriteBuffer(queue, device_constant, CL_TRUE, 0, sizeof(type_struct_sampling_opencl1), host_constant, 0, NULL, NULL);
     ret = clEnqueueWriteBuffer(queue, device_alpha_beta, CL_TRUE, 0, projectionSinogramNb * sizeof(cl_float2), alpha_beta, 0, NULL, NULL);
@@ -645,7 +645,7 @@ void VIBackProjector_compute_OCL_mem_CPU<T>::doBackProjection_GPU(Volume_CPU<T>*
     elapsed = (time_end - time_start);
     printf("Time kernels : %f\n",elapsed/1000000000.0);
 
-    ret = clEnqueueReadBuffer(queue, device_volume, CL_TRUE, 0, estimatedVolume->getXVolumePixelNb()*estimatedVolume->getYVolumePixelNb()*estimatedVolume->getZVolumePixelNb()*sizeof(float), host_volume, 0, NULL, NULL);
+    ret = clEnqueueReadBuffer(queue, device_volume, CL_TRUE, 0, estimatedVolume->getXVolumePixelNb()*estimatedVolume->getYVolumePixelNb()*estimatedVolume->getZVolumePixelNb()*sizeof(T), host_volume, 0, NULL, NULL);
     
     estimatedVolume->setVolumeData(host_volume);
 

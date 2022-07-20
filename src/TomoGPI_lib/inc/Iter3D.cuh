@@ -247,6 +247,45 @@ private:
 	kind_architecture oclArchitecture_kind;
 };
 
+
+
+template<template<typename> class P, template<typename> class BP, template<typename> class R_Huber, template<typename> class R_GG, template<typename> class C, template<typename> class V, template<typename> class S, typename T> class Iter3D_compute_CUDA_OCL : public Iter3D<P,BP,R_Huber,R_GG,C,V,S,T>{
+public:
+	Iter3D_compute_CUDA_OCL(string workdirectory);
+	Iter3D_compute_CUDA_OCL(string workdirectory, ConfigComputeArchitecture* configComputeArchitecture_file);
+	V<T>* create_volume();
+	S<T>* create_sinogram3D();
+	~Iter3D_compute_CUDA_OCL();
+	//virtual void doProjection(S<T>* estimatedSinogram,V<T>*volume) = 0;
+	OCLProjectionArchitecture* getOCLProjectionArchitecture() const;
+	OCLBProjectionArchitecture* getOCLBProjectionArchitecture() const;
+	OCLArchitecture* getOCLArchitectureSino() const;
+	OCLArchitecture* getOCLArchitectureVolume() const;
+	OCLArchitecture* getOCLArchitecture() const;
+
+	CUDAProjectionArchitecture* getCUDAProjectionArchitecture() const;
+	CUDABProjectionArchitecture* getCUDABProjectionArchitecture() const;
+	CUDAArchitecture* getCUDAArchitectureSino() const;
+	CUDAArchitecture* getCUDAArchitectureVolume() const;
+	CUDAArchitecture* getCUDAArchitecture() const;
+	//kind_architecture* getArchitecture_kind() const;
+
+private:
+	OCLArchitecture *oclArchitecture;
+	OCLArchitecture *oclArchitectureSino;
+	OCLArchitecture *oclArchitectureVolume;
+	OCLProjectionArchitecture *oclprojectionArchitecture;
+	OCLBProjectionArchitecture *oclbackprojectionArchitecture;
+
+	CUDAArchitecture *cudaArchitecture;
+	CUDAArchitecture *cudaArchitectureSino;
+	CUDAArchitecture *cudaArchitectureVolume;
+	CUDAProjectionArchitecture *cudaprojectionArchitecture;
+	CUDABProjectionArchitecture *cudabackprojectionArchitecture;
+	kind_architecture oclArchitecture_kind;
+};
+
+
 template<typename P, typename BP, typename R_Huber, typename R_GG, typename C, typename V, typename S> class Iter3D_half{
 public:
 	Iter3D_half(string workdirectory);
