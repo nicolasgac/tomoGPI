@@ -31,7 +31,7 @@ typedef enum {ARCHITECTURE_FPGA,ARCHITECTURE_GPU,ARCHITECTURE_CPU}kind_architect
 typedef enum {HALF_GPU,FLOAT_GPU,DOUBLE_GPU}kind_precision;
 typedef enum {MEM_CPU,MEM_GPU, MEM_MGPU}kind_storage;
 typedef enum {PAIR_RSVI,PAIR_SFTR, PAIR_SIDDONVI}kind_pair;
-typedef enum {COMPUTE_CUDA,COMPUTE_C,COMPUTE_OCL}kind_compute;
+typedef enum {COMPUTE_CUDA,COMPUTE_CUDA_OCL,COMPUTE_C,COMPUTE_OCL}kind_compute;
 
 const int MAX_GPU_COUNT = 8;
 extern std::mutex iomutex;

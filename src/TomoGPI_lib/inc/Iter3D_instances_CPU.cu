@@ -33,6 +33,8 @@ template class Iter3D_compute_C<SiddonProjector_compute_C_mem_CPU, VIBackProject
 template class Iter3D_RSVI_compute_OCL_mem_CPU<float>; // 32-bit unsigned image
 template class Iter3D_RSVI_compute_C_mem_CPU<float>; // 32-bit unsigned image
 template class Iter3D_RSVI_compute_C_mem_CPU<double>; // 64-bit signed imag
+template class Iter3D_RSVI_compute_CUDA_OCL_mem_CPU<float>; // 32-bit unsigned image
+template class Iter3D_RSVI_compute_CUDA_OCL_mem_CPU<double>; // 64-bit signed imag
 template class Iter3D_RSVI_compute_CUDA_mem_CPU<float>; // 32-bit unsigned image
 template class Iter3D_RSVI_compute_CUDA_mem_CPU<double>; // 64-bit signed imag
 

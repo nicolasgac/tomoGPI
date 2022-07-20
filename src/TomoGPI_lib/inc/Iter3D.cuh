@@ -224,15 +224,26 @@ public:
 	OCLArchitecture* getOCLArchitectureSino() const;
 	OCLArchitecture* getOCLArchitectureVolume() const;
 	OCLArchitecture* getOCLArchitecture() const;
+
+	CUDAProjectionArchitecture* getCUDAProjectionArchitecture() const;
+	CUDABProjectionArchitecture* getCUDABProjectionArchitecture() const;
+	CUDAArchitecture* getCUDAArchitectureSino() const;
+	CUDAArchitecture* getCUDAArchitectureVolume() const;
+	CUDAArchitecture* getCUDAArchitecture() const;
 	//kind_architecture* getArchitecture_kind() const;
 
 private:
 	OCLArchitecture *oclArchitecture;
 	OCLArchitecture *oclArchitectureSino;
-	CUDAArchitecture *cudaArchitectureSino;
 	OCLArchitecture *oclArchitectureVolume;
 	OCLProjectionArchitecture *oclprojectionArchitecture;
 	OCLBProjectionArchitecture *oclbackprojectionArchitecture;
+
+	CUDAArchitecture *cudaArchitecture;
+	CUDAArchitecture *cudaArchitectureSino;
+	CUDAArchitecture *cudaArchitectureVolume;
+	CUDAProjectionArchitecture *cudaprojectionArchitecture;
+	CUDABProjectionArchitecture *cudabackprojectionArchitecture;
 	kind_architecture oclArchitecture_kind;
 };
 

@@ -242,6 +242,8 @@ int main( int argc, char** argv)
 			configComputeArchitectureFile->setCompute(COMPUTE_OCL);
 	else if (strcmp(compute_string,"CPU")==0)
 	configComputeArchitectureFile->setCompute(COMPUTE_C);
+	else if (strcmp(compute_string,"GPU_FPGA")==0)
+	configComputeArchitectureFile->setCompute(COMPUTE_CUDA_OCL);
 	else
 	configComputeArchitectureFile->setCompute(COMPUTE_CUDA);
 		}
@@ -313,6 +315,9 @@ int main( int argc, char** argv)
 						case COMPUTE_CUDA : {Iter3D_RSVI_compute_CUDA_mem_CPU<float>* iter = new Iter3D_RSVI_compute_CUDA_mem_CPU<float>(workdirectory,configComputeArchitectureFile);
 						iter->doMainIter(argc,argv);}
 						break;
+						case COMPUTE_CUDA_OCL : {Iter3D_RSVI_compute_CUDA_OCL_mem_CPU<float>* iter = new Iter3D_RSVI_compute_CUDA_OCL_mem_CPU<float>(workdirectory,configComputeArchitectureFile);
+							iter->doMainIter(argc,argv);}
+							break;
 						case COMPUTE_OCL : {Iter3D_RSVI_compute_OCL_mem_CPU<float>* iter = new Iter3D_RSVI_compute_OCL_mem_CPU<float>(workdirectory,configComputeArchitectureFile);
 						iter->doMainIter(argc,argv);}
 						break;}
