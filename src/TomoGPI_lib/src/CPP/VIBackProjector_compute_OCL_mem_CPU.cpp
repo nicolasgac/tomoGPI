@@ -6,7 +6,9 @@
 
 #include "BackProjector_CPU.cuh"
 
-#define SOURCE_FILE "TomoBayes/src/TomoBayes_lib/src/OCL/backprojection3D_kernel.cl"
+//#define SOURCE_FILE "TomoBayes/src/TomoBayes_lib/src/OCL/backprojection3D_kernel.cl"
+#define SOURCE_FILE "src/TomoGPI_lib/src/OCL/backprojection3D_kernel_xcat.cl"
+
 
 
 //#include "opencl_compat.h"
@@ -106,7 +108,7 @@ void VIBackProjector_compute_OCL_mem_CPU<T>::doBackProjection(Volume_CPU<T>* est
         // this->doBackProjection_GPU(estimatedVolume, sinogram);
         // memcpy(host_volume,estimatedVolume->getVolumeData(),estimatedVolume->getXVolumePixelNb()*estimatedVolume->getYVolumePixelNb()*estimatedVolume->getZVolumePixelNb()*sizeof(float));
         this->doBackProjection_CPU(estimatedVolume, sinogram);
-        memcpy(host_volume1,estimatedVolume->getVolumeData(),estimatedVolume->getXVolumePixelNb()*estimatedVolume->getYVolumePixelNb()*estimatedVolume->getZVolumePixelNb()*sizeof(T));
+        /*memcpy(host_volume1,estimatedVolume->getVolumeData(),estimatedVolume->getXVolumePixelNb()*estimatedVolume->getYVolumePixelNb()*estimatedVolume->getZVolumePixelNb()*sizeof(T));
         float RMSE;
         RMSE = 0.0;
         for(unsigned int p=0; p<256*256*256; p++){
@@ -116,7 +118,7 @@ void VIBackProjector_compute_OCL_mem_CPU<T>::doBackProjection(Volume_CPU<T>* est
             //printf("%f = %f\t", host_volume1[p], host_volume[p]);
         }
         RMSE = sqrt(RMSE/(256*256*256));
-        printf("Erreur quadratique moyenne: %.3f\n", RMSE);
+        printf("Erreur quadratique moyenne: %.3f\n", RMSE);*/
         break;
     
     default:
@@ -562,7 +564,7 @@ void VIBackProjector_compute_OCL_mem_CPU<T>::doBackProjection_GPU(Volume_CPU<T>*
     queue = clCreateCommandQueue(context, device_id, CL_QUEUE_PROFILING_ENABLE, &ret);
 
     cl_mem device_volume = clCreateBuffer(context, CL_MEM_READ_WRITE, estimatedVolume->getXVolumePixelNb()*estimatedVolume->getYVolumePixelNb()*estimatedVolume->getZVolumePixelNb()*sizeof(float), NULL,&ret);
-	printf("device_volume created\n");
+    printf("device_volume created\n");
 	//cl_mem device_sinogram = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, sinogram->getDataSinogramSize()*sizeof(float), host_sinogram,&ret);
     cl_mem device_sinogram = clCreateBuffer(context, CL_MEM_READ_ONLY, sinogram->getDataSinogramSize()*sizeof(T), NULL,&ret);
 	printf("device_sinogram created\n");
@@ -570,9 +572,11 @@ void VIBackProjector_compute_OCL_mem_CPU<T>::doBackProjection_GPU(Volume_CPU<T>*
 	printf("device_sampling created\n");
 	cl_mem device_constant = clCreateBuffer(context, CL_MEM_READ_ONLY, sizeof(type_struct_constante_opencl1), NULL,&ret);
     cl_mem device_alpha_beta = clCreateBuffer(context, CL_MEM_READ_ONLY, projectionSinogramNb * sizeof(cl_float2), NULL,&ret);
+    
 	printf("device_constant created\n");
     ret = clEnqueueWriteBuffer(queue, device_sinogram, CL_TRUE, 0, sinogram->getDataSinogramSize()*sizeof(T), host_sinogram, 0, NULL, NULL);
     ret = clEnqueueWriteBuffer(queue, device_sampling, CL_TRUE, 0, sizeof(type_struct_sampling_opencl1), host_sampling, 0, NULL, NULL);
+    CHECK_RET(ret, "Device memory allocation failed\n");
     ret = clEnqueueWriteBuffer(queue, device_constant, CL_TRUE, 0, sizeof(type_struct_sampling_opencl1), host_constant, 0, NULL, NULL);
     ret = clEnqueueWriteBuffer(queue, device_alpha_beta, CL_TRUE, 0, projectionSinogramNb * sizeof(cl_float2), alpha_beta, 0, NULL, NULL);
 
@@ -721,7 +725,7 @@ void VIBackProjector_compute_OCL_mem_CPU<T>::doBackProjection_CPU(Volume_CPU<T>*
     size_t source_size;
     FILE *fp;
     char fileName[255];
-     sprintf(fileName,"%s/%s",getenv ("TOMO_GPI"),SOURCE_FILE); //"backprojection3D_kernel.aocx";
+     sprintf(fileName,"%s/%s",getenv ("tomoGPI"),SOURCE_FILE); //"backprojection3D_kernel.aocx";
     fp = fopen(fileName, "rb");
     if (!fp) {
     	   fprintf(stderr, "Failed to load kernel.\n");
@@ -804,6 +808,7 @@ void VIBackProjector_compute_OCL_mem_CPU<T>::doBackProjection_CPU(Volume_CPU<T>*
 	host_constant->vn_0=vDetectorCenterPixel;
 	host_constant->gamma_D=(vDetectorPixelSize*fod)/(fdd*zVolumePixelSize);//(sampling->delta_vn*sampling->R)/(sampling->D*sampling->delta_zn);
 	host_constant->D=fdd;
+    printf("un0=%f fdd=%f wn=%f vn=%f\n", host_constant->un_0, host_constant->D, host_constant->gamma_wn, host_constant->gamma_vn);
 
     printf("test_value: %f\n", host_constant->vn_0);
 
@@ -814,7 +819,7 @@ void VIBackProjector_compute_OCL_mem_CPU<T>::doBackProjection_CPU(Volume_CPU<T>*
 	    //host_constant->beta_wn[p] = this->getBetaIOcylinderC()[p];
         alpha_beta[p].s0=this->getAlphaIOcylinderC()[p]; 
         alpha_beta[p].s1=this->getBetaIOcylinderC()[p];
-       // printf("%f\t", host_constant->alpha_wn[p]);
+    
     }
 
 
@@ -879,7 +884,7 @@ void VIBackProjector_compute_OCL_mem_CPU<T>::doBackProjection_CPU(Volume_CPU<T>*
 
 
     // Creation de la fonction backprojection3D
-    kernel = clCreateKernel(program, "backprojection3D", &ret);
+    kernel = clCreateKernel(program, "backprojection3D_NDR", &ret);
     CHECK_RET(ret, "Failed to create kernel");
     printf("Kernel backprojection3D created\n");
     // kernel1 = clCreateKernel(program, "backprojection3D_SWI", &ret);
@@ -894,12 +899,14 @@ void VIBackProjector_compute_OCL_mem_CPU<T>::doBackProjection_CPU(Volume_CPU<T>*
     ret = clSetKernelArg(kernel, argk++, sizeof(float), &host_cst);
 
 
-    size_t globalWorkItemSize[] = {256, 256, 256}; //The total size of 1 dimension of the work items. Here, 256*256*256
+    size_t globalWorkItemSize[] = {estimatedVolume->getXVolumePixelNb(), estimatedVolume->getYVolumePixelNb(), estimatedVolume->getZVolumePixelNb()}; //The total size of 1 dimension of the work items. Here, 256*256*256
     //size_t workGroupSize = 256; // The size of one work group. Here, we have only one work-group
+    printf("volume (%d %d %d)\n", estimatedVolume->getXVolumePixelNb(), estimatedVolume->getYVolumePixelNb(), estimatedVolume->getZVolumePixelNb());
+    printf("sinogram (%d %d %d)\n", sinogram->getUSinogramPixelNb(), sinogram->getVSinogramPixelNb(), sinogram->getProjectionSinogramNb());
     
-    //ret = clEnqueueNDRangeKernel(queue, kernel, 3, NULL, globalWorkItemSize, NULL, 0, NULL, &kernel_event);
+    ret = clEnqueueNDRangeKernel(queue, kernel, 3, NULL, globalWorkItemSize, NULL, 0, NULL, &kernel_event);
 
-    ret = clEnqueueTask(queue, kernel, 1, &user_event, &kernel_event);
+    //ret = clEnqueueTask(queue, kernel, 1, &user_event, &kernel_event);
 
     if (ret != CL_SUCCESS) {
         printf("Error Enqueue: %d\n", ret);

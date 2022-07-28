@@ -26,6 +26,15 @@
 #define un_0 127.5f
 #define vn_0 127.5f
 
+
+///xcat dataset 
+#define PHI_xcat 1024
+#define X_xcat 1024
+#define Y_xcat 1024
+#define Z_xcat 256
+#define U_xcat 1024
+#define V_xcat 256
+
 //#pragma once
 
 #undef  TEST_FOV_CYLINDER
@@ -628,8 +637,6 @@ __kernel void backprojection3D(
 */
 //#endif  
 
- 
-
 
 //Back proj NDrange CPU and GPU
 __kernel void backprojection3D_NDR(
@@ -723,7 +730,7 @@ __kernel void backprojection3D_NDR(
             }
         }
             
-        voxel_sum += sinogram[(un_e%256 + (vn_e%256) * UN_MAX + phi * UN_MAX * VN_MAX)] * s_d_xn * sinogram_coeff;
+        voxel_sum += sinogram[(un_e%UN_MAX + (vn_e%VN_MAX) * UN_MAX + phi * UN_MAX * VN_MAX)] * s_d_xn * sinogram_coeff;
         //volume[xn + yn * XN_MAX + zn * XN_MAX * YN_MAX] += sinogram[(un_e%256 + (vn_e%256) * UN_MAX + phi * UN_MAX * VN_MAX)] * s_d_xn * sinogram_coeff;
         //if(sinogram[(un_e%256 + (vn_e%256) * UN_MAX + phi * UN_MAX * VN_MAX)%256]!=0.0)
             //printf("%f\t", sinogram[(un_e%256 + (vn_e%256) * UN_MAX + phi * UN_MAX * VN_MAX)%256]);
@@ -738,7 +745,7 @@ __kernel void backprojection3D_NDR(
     
            
 }
-
+ 
 
 __kernel void backprojection3D_SWI(
          __global float * restrict volume,
@@ -845,6 +852,8 @@ __kernel void backprojection3D_SWI(
         }
     }        
 }
+
+
 
 
 

@@ -100,7 +100,7 @@ int Iter3D<P,BP,R_Huber,R_GG,C,V,S,T>::doMainIter( int argc, char** argv)
 			}
 
 			cout << "********** WARM UP **************" << endl;
-			this->getBackprojector()->doBackProjection(volume,realSinogram);
+			//this->getBackprojector()->doBackProjection(volume,realSinogram);
 			cout << "********** END WARM UP **********" << endl;
 
 			t0 = high_resolution_clock::now();
