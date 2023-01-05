@@ -61,7 +61,7 @@ typedef enum {PROJBACK,SIMPLE,CONJUGATE}kind_gradient;
 //#define COMPUTE_J 1
 //#define COMPUTE_EAM 1
 //#define COMPUTE_MIDDLE_SLICE 1
-#define TOMOGPI_VERSION "1.0"
+#define TOMOGPI_VERSION "2.0"
 
 /*typedef union {HuberRegularizer_CPU,GeneralizedGaussianRegularizer_CPU} type_reg_CPU;
 typedef union {HuberRegularizer_CPU,GeneralizedGaussianRegularizer_CPU} type_reg_GPU;
