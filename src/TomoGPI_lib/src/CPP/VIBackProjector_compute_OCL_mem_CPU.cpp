@@ -453,7 +453,7 @@ void VIBackProjector_compute_OCL_mem_CPU<T>::doBackProjection_GPU(Volume_CPU<T>*
     size_t source_size;
     FILE *fp;
     char fileName[255];
-    sprintf(fileName,"%s/%s",getenv ("TOMO_GPI"),SOURCE_FILE); //"backprojection3D_kernel.aocx";
+    sprintf(fileName,"%s/%s",getenv ("tomoGPI"),SOURCE_FILE); //"backprojection3D_kernel.aocx";
     fp = fopen(fileName, "rb");
     if (!fp) {
     	   fprintf(stderr, "Failed to load kernel.\n");
@@ -624,7 +624,7 @@ void VIBackProjector_compute_OCL_mem_CPU<T>::doBackProjection_GPU(Volume_CPU<T>*
     ret = clSetKernelArg(kernel, argk++, sizeof(cl_mem), &device_alpha_beta);
     ret = clSetKernelArg(kernel, argk++, sizeof(float), &host_cst);
 
-    size_t globalWorkItemSize[] = {256, 256, 256}; //The total size of 1 dimension of the work items. Here, 256*256*256
+    size_t globalWorkItemSize[] = {estimatedVolume->getXVolumePixelNb(), estimatedVolume->getYVolumePixelNb(), estimatedVolume->getZVolumePixelNb()}; //The total size of 1 dimension of the work items. Here, 256*256*256
     //size_t workGroupSize = 256; // The size of one work group. Here, we have only one work-group
     
     ret = clEnqueueNDRangeKernel(queue, kernel, 3, NULL, globalWorkItemSize, NULL, 0, NULL, &kernel_event);
