@@ -19,14 +19,14 @@ To run the exectutable
 	- "compute" option is for the target language "C" for language C or "CUDA" for CUDA on NVIDIA GPU or "OCL" for OpenCL or CUDA_OCL for proj on GPU and backproj on FPGA  
 	- "architecture" for the target architecture CPU, GPU or FPGA.  
 
-#### The executable should be copied in the Data3D_0256/ or simply added to the path
+##### The executable should be copied in the Data3D_0256/ or simply added to the path
 
-#### The OpenCL kernels are in the src/TomoGPI_lib/src/OCL/ for the 3D backprojector
-#### There are one for for Arria 10 device and two files for Stratix 10 device (single and multi kernels)
+##### The OpenCL kernels are in the src/TomoGPI_lib/src/OCL/ for the 3D backprojector
+##### There are one for for Arria 10 device and two files for Stratix 10 device (single and multi kernels)
 
 
 
-#### For each kernel one can tune the block size and shape and fixes the projection data size for the local memory 
+##### For each kernel one can tune the block size and shape and fixes the projection data size for the local memory 
 
 To synthesize the OpenCL kernel:  0
 
